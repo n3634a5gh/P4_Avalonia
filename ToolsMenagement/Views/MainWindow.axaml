@@ -1,0 +1,84 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:vm="using:ToolsMenagement.ViewModels"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+        x:Class="ToolsMenagement.Views.MainWindow"
+        x:DataType="vm:MainWindowViewModel"
+        Icon="/Assets/avalonia-logo.ico"
+        Title="ToolsMenagement">
+
+    <Design.DataContext>
+        <!-- This only sets the DataContext for the previewer in an IDE,
+             to set the actual DataContext for runtime, set the DataContext property in code (look at App.axaml.cs) -->
+        <vm:MainWindowViewModel/>
+    </Design.DataContext>
+    
+    <Window.Styles>
+        <Style Selector="TabControl">
+            <Setter Property="Background" Value="#FFFF"/>
+            <Setter Property="Height" Value="120"/>
+        </Style>
+        <Style Selector="TabControl WrapPanel">
+            <Setter Property="Background" Value="Green"/>
+        </Style>
+        <Style Selector="TabItem">
+            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="Height" Value="34"/>
+            <Setter Property="VerticalAlignment" Value="Center"/>
+            <Setter Property="Background" Value="Green"/>
+            <Setter Property="Foreground" Value="#FFFF"/>
+            <Setter Property="Margin" Value="0 0 0 0"/>
+            <Setter Property="Padding" Value="10 0"/>
+        </Style>
+        <Style Selector="TabItem:selected">
+            <Setter Property="Foreground" Value="#000"/>
+            <Setter Property="FontWeight" Value="Heavy"/>
+            <Setter Property="Margin" Value="0 0 0 0"/>
+            <Setter Property="Padding" Value="10 0"/>
+        </Style>
+        <Style Selector="TabItem:selected /template/ ContentPresenter#PART_ContentPresenter">
+            <Setter Property="Background" Value="green"/>
+        </Style>
+    </Window.Styles>
+
+    <!--<TextBlock Text="{Binding Greeting}" HorizontalAlignment="Center" VerticalAlignment="Center"/>-->
+    
+    <StackPanel>
+        <Grid Background="GreenYellow" Height="40" ColumnDefinitions="*">
+            <StackPanel Grid.Column="0" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
+                <Label FontWeight="Black">Tools Menagement</Label>
+            </StackPanel>
+        </Grid>
+            
+        <Grid>
+            <TabControl>
+                <TabItem Header="Tools" VerticalContentAlignment="Center">
+                    <TreeDataGrid Source="{Binding Source}"/>
+                </TabItem>
+                <TabItem>
+                    <TabItem.Header>
+                        <TextBlock VerticalAlignment="Center">Rejestracja</TextBlock>
+                    </TabItem.Header>
+                    <StackPanel>
+                        </StackPanel>
+                </TabItem>
+                <TabItem>
+                    <TabItem.Header>
+                        <TextBlock VerticalAlignment="Center">Cos</TextBlock>
+                    </TabItem.Header>
+                    <StackPanel Orientation="Horizontal">
+                                      
+                    </StackPanel>
+                </TabItem>
+            </TabControl>
+        </Grid>
+        
+        <Grid>
+            
+        </Grid>
+    </StackPanel>
+    
+    
+</Window>
