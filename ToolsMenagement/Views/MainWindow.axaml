@@ -18,7 +18,7 @@
     <Window.Styles>
         <Style Selector="TabControl">
             <Setter Property="Background" Value="#FFFF"/>
-            <Setter Property="Height" Value="120"/>
+            <Setter Property="Height" Value="300"/>
         </Style>
         <Style Selector="TabControl WrapPanel">
             <Setter Property="Background" Value="Green"/>
@@ -51,8 +51,7 @@
                 <Label FontWeight="Black">Tools Menagement</Label>
             </StackPanel>
         </Grid>
-            
-        <Grid>
+        
             <TabControl>
                 <TabItem Header="Tools" VerticalContentAlignment="Center">
                     <TreeDataGrid Source="{Binding Source}"/>
@@ -73,9 +72,8 @@
                     </StackPanel>
                 </TabItem>
             </TabControl>
-        </Grid>
         
-        <Grid>
+            <Grid>
             
         </Grid>
     </StackPanel>
