@@ -12,6 +12,9 @@ public partial class Narzedzie
     public string Nazwa { get; set; } = null!;
 
     public int Srednica { get; set; }
+    
+    public string Material_wykonania { get; set; }
+    public int Ilosc_ostrzy { get; set; }
 
     public virtual Kategorium IdKategoriiNavigation { get; set; } = null!;
 
