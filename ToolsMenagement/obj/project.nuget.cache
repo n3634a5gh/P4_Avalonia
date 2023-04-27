@@ -1,11 +1,12 @@
 {
   "version": 2,
-  "dgSpecHash": "5KKBo0tQzxpBrzwSAOZJY/sBkcwt6SlkYxpSYFFtYxQ6VDDhXSvnqZ5b+gDQW6WC7JCjLcoHrCMLsrA/ROSBZA==",
+  "dgSpecHash": "x6lZ7taFzGJGMjtMvxh0m6OD/IhDYnC0wTu1hFHwZyWLstyQT7BORwrtrHBTyyCsPSdfXWpor2DWIG9pWP2Tdg==",
   "success": true,
   "projectFilePath": "C:\\Users\\48519\\RiderProjects\\ToolsMenagement\\ToolsMenagement\\ToolsMenagement.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\48519\\.nuget\\packages\\avalonia\\0.10.18\\avalonia.0.10.18.nupkg.sha512",
     "C:\\Users\\48519\\.nuget\\packages\\avalonia.angle.windows.natives\\2.1.0.2020091801\\avalonia.angle.windows.natives.2.1.0.2020091801.nupkg.sha512",
+    "C:\\Users\\48519\\.nuget\\packages\\avalonia.avaloniaedit\\0.10.0\\avalonia.avaloniaedit.0.10.0.nupkg.sha512",
     "C:\\Users\\48519\\.nuget\\packages\\avalonia.controls.datagrid\\0.10.18\\avalonia.controls.datagrid.0.10.18.nupkg.sha512",
     "C:\\Users\\48519\\.nuget\\packages\\avalonia.controls.treedatagrid\\0.10.18.1\\avalonia.controls.treedatagrid.0.10.18.1.nupkg.sha512",
     "C:\\Users\\48519\\.nuget\\packages\\avalonia.desktop\\0.10.18\\avalonia.desktop.0.10.18.nupkg.sha512",
@@ -29,6 +30,11 @@
     "C:\\Users\\48519\\.nuget\\packages\\harfbuzzsharp.nativeassets.win32\\2.8.2.1-preview.108\\harfbuzzsharp.nativeassets.win32.2.8.2.1-preview.108.nupkg.sha512",
     "C:\\Users\\48519\\.nuget\\packages\\humanizer.core\\2.14.1\\humanizer.core.2.14.1.nupkg.sha512",
     "C:\\Users\\48519\\.nuget\\packages\\jetbrains.annotations\\10.3.0\\jetbrains.annotations.10.3.0.nupkg.sha512",
+    "C:\\Users\\48519\\.nuget\\packages\\markdown.avalonia\\0.10.10\\markdown.avalonia.0.10.10.nupkg.sha512",
+    "C:\\Users\\48519\\.nuget\\packages\\markdown.avalonia.syntaxhigh\\0.10.10\\markdown.avalonia.syntaxhigh.0.10.10.nupkg.sha512",
+    "C:\\Users\\48519\\.nuget\\packages\\markdown.avalonia.tight\\0.10.10\\markdown.avalonia.tight.0.10.10.nupkg.sha512",
+    "C:\\Users\\48519\\.nuget\\packages\\messagebox\\2.1.0\\messagebox.2.1.0.nupkg.sha512",
+    "C:\\Users\\48519\\.nuget\\packages\\messagebox.avalonia\\2.0.0\\messagebox.avalonia.2.0.0.nupkg.sha512",
     "C:\\Users\\48519\\.nuget\\packages\\microsoft.bcl.asyncinterfaces\\1.1.1\\microsoft.bcl.asyncinterfaces.1.1.1.nupkg.sha512",
     "C:\\Users\\48519\\.nuget\\packages\\microsoft.codeanalysis.analyzers\\2.9.6\\microsoft.codeanalysis.analyzers.2.9.6.nupkg.sha512",
     "C:\\Users\\48519\\.nuget\\packages\\microsoft.codeanalysis.common\\3.4.0\\microsoft.codeanalysis.common.3.4.0.nupkg.sha512",
@@ -80,7 +86,7 @@
     "C:\\Users\\48519\\.nuget\\packages\\skiasharp.nativeassets.win32\\2.88.1-preview.108\\skiasharp.nativeassets.win32.2.88.1-preview.108.nupkg.sha512",
     "C:\\Users\\48519\\.nuget\\packages\\splat\\10.0.1\\splat.10.0.1.nupkg.sha512",
     "C:\\Users\\48519\\.nuget\\packages\\system.codedom\\4.7.0\\system.codedom.4.7.0.nupkg.sha512",
-    "C:\\Users\\48519\\.nuget\\packages\\system.collections.immutable\\1.5.0\\system.collections.immutable.1.5.0.nupkg.sha512",
+    "C:\\Users\\48519\\.nuget\\packages\\system.collections.immutable\\1.6.0\\system.collections.immutable.1.6.0.nupkg.sha512",
     "C:\\Users\\48519\\.nuget\\packages\\system.componentmodel.annotations\\4.7.0\\system.componentmodel.annotations.4.7.0.nupkg.sha512",
     "C:\\Users\\48519\\.nuget\\packages\\system.configuration.configurationmanager\\6.0.1\\system.configuration.configurationmanager.6.0.1.nupkg.sha512",
     "C:\\Users\\48519\\.nuget\\packages\\system.data.sqlclient\\4.8.1\\system.data.sqlclient.4.8.1.nupkg.sha512",
@@ -123,5 +129,16 @@
     "C:\\Users\\48519\\.nuget\\packages\\microsoft.aspnetcore.app.ref\\6.0.15\\microsoft.aspnetcore.app.ref.6.0.15.nupkg.sha512",
     "C:\\Users\\48519\\.nuget\\packages\\microsoft.netcore.app.host.win-x64\\6.0.15\\microsoft.netcore.app.host.win-x64.6.0.15.nupkg.sha512"
   ],
-  "logs": []
+  "logs": [
+    {
+      "code": "NU1701",
+      "level": "Warning",
+      "warningLevel": 1,
+      "message": "Package 'MessageBox 2.1.0' was restored using '.NETFramework,Version=v4.6.1, .NETFramework,Version=v4.6.2, .NETFramework,Version=v4.7, .NETFramework,Version=v4.7.1, .NETFramework,Version=v4.7.2, .NETFramework,Version=v4.8, .NETFramework,Version=v4.8.1' instead of the project target framework 'net6.0'. This package may not be fully compatible with your project.",
+      "libraryId": "MessageBox",
+      "targetGraphs": [
+        "net6.0"
+      ]
+    }
+  ]
 }

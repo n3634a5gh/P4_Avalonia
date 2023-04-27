@@ -12,33 +12,74 @@ public class AddNewTool
         var context = new ToolsDatabase1Context();
         context.Database.EnsureCreated();
         context.Database.Migrate();
-        
-        var kategoria = new Kategorium()
+
+        int select_category = 0;
+        foreach (var item in context.Kategoria)
         {
-            Opis = MyReferences.mwvm.SelectedCategory,
-            Przeznaczenie = MyReferences.mwvm.SelectedPurpose
-        };
-        
-        var narzedzie = new Narzedzie()
-        {
-            Material_wykonania = MyReferences.mwvm.SelectedMaterial,
-            Srednica = Convert.ToInt32(MyReferences.mwvm.T_diameter),
-            Ilosc_ostrzy = Convert.ToInt32(MyReferences.mwvm.CEdges),
-            Nazwa = "zxc",
-            Magazyns = new List<Magazyn>()
+            if (item.Opis == MyReferences.mwvm.SelectedCategory)
             {
-                new Magazyn()
+                if (item.Przeznaczenie == MyReferences.mwvm.SelectedPurpose)
                 {
-                    Trwalosc = Convert.ToInt32(MyReferences.mwvm.Lifetime),
-                    Uzycie = 0,
-                    CyklRegeneracji = 0,
-                    Wycofany = false
+                    if (item.MaterialWykonania == MyReferences.mwvm.SelectedMaterial)
+                    {
+                        select_category = item.IdKategorii;
+                    }
                 }
             }
-        };
-        kategoria.Narzedzies.Add(narzedzie);
-        context.Add(kategoria);
-        context.SaveChanges();
+        }
         
+        string temp = MyReferences.mwvm.Diameter;
+        double zxc = Convert.ToDouble(temp);
+        
+        int existing_tool = 0;
+        foreach (var item in context.Narzedzies)
+        {
+            if (item.IdKategorii == select_category)
+            {
+                if(item.Srednica==zxc)
+                {
+                    existing_tool = item.IdNarzedzia;
+                }
+            }
+        }
+
+        if (existing_tool == 0)
+        {
+            var narzedzie = new Narzedzie()
+            {
+                IdKategorii = select_category,
+                Srednica = zxc,
+                Nazwa = Create_name.Tool_Name(MyReferences.mwvm.SelectedCategory,
+                    zxc,
+                    MyReferences.mwvm.SelectedMaterial,
+                    MyReferences.mwvm.SelectedPurpose),
+                Magazyns = new List<Magazyn>()
+                {
+                    new Magazyn()
+                    {
+                        Trwalosc = Convert.ToInt32(MyReferences.mwvm.Lifetime),
+                        Uzycie = 0,
+                        CyklRegeneracji = 0,
+                        Wycofany = false
+                    }
+                }
+            };
+        
+            context.Add(narzedzie);
+            context.SaveChanges();
+        }
+        else
+        {
+            var magazyn = new Magazyn()
+            {
+                IdNarzedzia = existing_tool,
+                Trwalosc = Convert.ToInt32(MyReferences.mwvm.Lifetime),
+                Uzycie = 0,
+                CyklRegeneracji = 0,
+                Wycofany = false
+            };
+            context.Add(magazyn);
+            context.SaveChanges();
+        }
     }
 }

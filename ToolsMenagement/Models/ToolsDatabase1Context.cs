@@ -39,7 +39,8 @@ public partial class ToolsDatabase1Context : DbContext
 
             entity.Property(e => e.IdKategorii).HasColumnName("Id_Kategorii");
             entity.Property(e => e.Opis).HasMaxLength(32).HasColumnName("Opis");
-            entity.Property(e => e.Przeznaczenie).HasMaxLength(32);
+            entity.Property(e => e.Przeznaczenie).HasMaxLength(32).HasColumnName("Przeznaczenie");
+            entity.Property(e => e.MaterialWykonania).HasColumnName("Material_wykonania");
         });
 
         modelBuilder.Entity<Magazyn>(entity =>
@@ -87,8 +88,6 @@ public partial class ToolsDatabase1Context : DbContext
 
             entity.Property(e => e.IdNarzedzia).HasColumnName("Id_narzedzia");
             entity.Property(e => e.IdKategorii).HasColumnName("Id_Kategorii");
-            entity.Property(e => e.Material_wykonania).HasMaxLength(32).HasColumnName("Material_wykonania");
-            entity.Property(e => e.Ilosc_ostrzy).HasColumnName("Ilosc_ostrzy");
 
             entity.HasOne(d => d.IdKategoriiNavigation).WithMany(p => p.Narzedzies)
                 .HasForeignKey(d => d.IdKategorii)

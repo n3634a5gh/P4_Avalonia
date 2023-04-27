@@ -72,6 +72,14 @@
               "target": "Package",
               "version": "[6.4.4, )"
             },
+            "MessageBox": {
+              "target": "Package",
+              "version": "[2.1.0, )"
+            },
+            "MessageBox.Avalonia": {
+              "target": "Package",
+              "version": "[2.0.0, )"
+            },
             "Microsoft.EntityFrameworkCore.Design": {
               "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
               "suppressParent": "All",

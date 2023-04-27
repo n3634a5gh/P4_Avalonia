@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using Avalonia.Controls;
@@ -14,20 +15,28 @@ public partial class MainWindow : Window
         InitializeComponent();
         DataContext = new MainWindowViewModel();
         MyReferences.MainView = this;
+        
     }
-    
-    /*private void InitializeComponent()
-    {
-        AvaloniaXamlLoader.Load(this);
-    }*/
 
     private void OnSubmitClicked(object sender, RoutedEventArgs e)
     {
-        var newTool = new AddNewTool();
+        if (!MyReferences.mwvm.IsDataValid)
+        {
+            
+        }
+        else
+        {
+            /*var newTool = new AddNewTool();*/
+            CategoryComboBox.SelectedIndex = -1;
+            MaterialComboBox.SelectedIndex = -1;
+            PurposeComboBox.SelectedIndex = -1;
+            DiameterTextBox.Text= "";
+            LifetimeTextBox.Text = "";
+        }
     }
     private void OnSubmit2Clicked(object sender, RoutedEventArgs e)
     {
-        //string name = NameTextBox.Text;
-        //string email = EmailTextBox.Text;
+        var restoretool = new RestoreTool().ExecuteRestoreTool();
+        ToolTextBox1.Text = "";
     }
 }

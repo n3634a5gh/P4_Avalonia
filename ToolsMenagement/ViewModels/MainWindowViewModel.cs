@@ -1,12 +1,10 @@
-﻿using System;
-using System.Collections.ObjectModel;
+﻿using System.Collections.ObjectModel;
 using ToolsMenagement.Models;
 using Avalonia.Controls;
 using Avalonia.Controls.Models.TreeDataGrid;
 using Microsoft.EntityFrameworkCore;
 using System.Linq;
 using Avalonia.Data;
-using Avalonia.Interactivity;
 using ReactiveUI;
 
 namespace ToolsMenagement.ViewModels;
@@ -16,6 +14,22 @@ public class MainWindowViewModel : ViewModelBase
     public ObservableCollection<string>Categories { get; set; }
     public ObservableCollection<string>Purpose { get; set; }
     public ObservableCollection<string>Material { get; set; }
+    
+    
+    private bool _isDataValid,_isDiameterValid,_isLifetimeValid;
+
+    public bool IsDataValid
+    {
+        get => _isDataValid;
+        set
+        {
+            if (_isDiameterValid & _isLifetimeValid)
+            {
+                this.RaiseAndSetIfChanged(ref _isDataValid, value);
+            }
+            
+        }
+    }
     
     private string _selectedCategory;
     public string SelectedCategory
@@ -39,10 +53,11 @@ public class MainWindowViewModel : ViewModelBase
         get => _selectedMaterial;
         set => this.RaiseAndSetIfChanged(ref _selectedMaterial, value);
     }
-
+    
+    
     private string _tDiameter;
 
-    public string T_diameter
+    public string Diameter
     {
         get => _tDiameter;
         set
@@ -50,87 +65,114 @@ public class MainWindowViewModel : ViewModelBase
             double number;
             if(string.IsNullOrWhiteSpace(value))
             {
+                IsDataValid = false;
+                _isDiameterValid = false;
                 throw new DataValidationException("Pole nie może być puste");
             }
             else
             {
                 if (value.Contains('.'))
                 {
+                    IsDataValid = false;
+                    _isDiameterValid = false;
                     throw new DataValidationException("Nieprawidłowy format liczby");
                 }
                 else
                 {
                     if (!double.TryParse(value, out number) || value.Contains('-') || value.Equals("0"))
                     {
+                        IsDataValid = false;
+                        _isDiameterValid = false;
                         throw new DataValidationException("Wartość musi być dodatnia typu double");
                     }
                     else
                     {
                         this.RaiseAndSetIfChanged(ref _tDiameter, value);
+                        _isDiameterValid = true;
+                        IsDataValid = true;
                     }
                 }
             }
         }
     }
-
-    private string c_edges;
     
-    public string CEdges
-    {
-        get => c_edges;
-        set
-        {
-            int number;
-            if(string.IsNullOrWhiteSpace(value))
-            {
-                throw new DataValidationException("Pole nie może być puste");
-            }
-            else
-            {
-                if (!int.TryParse(value, out number) || value.Contains('-') || value.Equals("0"))
-                {
-                    throw new DataValidationException("Wymagana liczba całkowita dodatnia");
-                }
-                else
-                {
-                    this.RaiseAndSetIfChanged(ref _tDiameter, value);
-                }
-            }
-        }
-    }
-    
-    private string lifetime;
+    private string _lifetime;
 
     public string Lifetime
     {
-        get => lifetime;
+        get => _lifetime;
         set
         {
             int number;
             if(string.IsNullOrWhiteSpace(value))
             {
+                IsDataValid = false;
+                _isLifetimeValid = false;
                 throw new DataValidationException("Pole nie może być puste");
             }
             else
             {
                 if (value.Contains('.'))
                 {
+                    IsDataValid = false;
+                    _isLifetimeValid = false;
                     throw new DataValidationException("Nieprawidłowy format liczby");
                 }
                 else
                 {
                     if (!int.TryParse(value, out number) || value.Contains('-') || value.Equals("0"))
                     {
-                        throw new DataValidationException("Wartość musi być dodatnia typu double");
+                        IsDataValid = false;
+                        _isLifetimeValid = false;
+                        throw new DataValidationException("Wartość musi być dodatnia typu int");
                     }
                     else
                     {
-                        this.RaiseAndSetIfChanged(ref lifetime, value);
+                        this.RaiseAndSetIfChanged(ref _lifetime, value);
+                        _isLifetimeValid = true;
+                        IsDataValid = true;
                     }
                 }
             }
         }
     }
+
+    private string _afterRegeneration;
+
+    public string AfterRegeneration
+    {
+        get => _afterRegeneration;
+        set
+        {
+            if(string.IsNullOrWhiteSpace(value))
+            {
+                throw new DataValidationException("Pole nie może być puste");
+            }
+            else
+            {
+                if (!int.TryParse(value,out int number) || value.Contains('-') || value.Equals("0"))
+                {
+                    throw new DataValidationException("Numer jest liczbą naturalną większą od zera");
+                }
+                else
+                {
+                    this.RaiseAndSetIfChanged(ref _afterRegeneration, value);
+                }
+            }
+        }
+    }
+
+    private string _warningtext;
+
+    public string WarningText
+    {
+        get => _warningtext;
+        set
+        {
+            this.RaiseAndSetIfChanged(ref _warningtext, value);
+        }
+    }
+
     public MainWindowViewModel()
     {
         
@@ -140,12 +182,6 @@ public class MainWindowViewModel : ViewModelBase
         context.Database.EnsureCreated();
         context.Database.Migrate();
 
-        /*context.Clients.Add(new Client()
-        {
-            Name = "Jan Kowalski",
-            Adress = "Szeroka, Bielsko",
-            Balance = 0
-        });*/
         context.SaveChanges();
 
         var nrz = context.Narzedzies
@@ -164,7 +200,7 @@ public class MainWindowViewModel : ViewModelBase
                 new TextColumn<Narzedzie, string>("Nazwa", x=> x.Nazwa),
                 new TextColumn<Narzedzie, int>("Id Narzędzia", x => x.IdNarzedzia),
                 new TextColumn<Narzedzie, int>("Id kategori", x => x.IdKategorii),
-                new TextColumn<Narzedzie, int>("Średnica", x => x.Srednica),
+                new TextColumn<Narzedzie, double>("Średnica", x => x.Srednica),
             },
         };
         
@@ -175,7 +211,7 @@ public class MainWindowViewModel : ViewModelBase
             kategorie.Select(n => n.Przeznaczenie.ToString()).Distinct());
 
         Material = new ObservableCollection<string>(
-            narzedziaCollection.Select(n => n.Material_wykonania.ToString()).Distinct());
+            kategorie.Select(n => n.MaterialWykonania.ToString()).Distinct());
     }
     
     
