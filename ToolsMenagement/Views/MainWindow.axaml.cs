@@ -1,8 +1,10 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Interactivity;
+using Avalonia.Layout;
 using Avalonia.Markup.Xaml;
 using ToolsMenagement.ViewModels;
 
@@ -26,7 +28,7 @@ public partial class MainWindow : Window
         }
         else
         {
-            /*var newTool = new AddNewTool();*/
+            var newTool = new AddNewTool();
             CategoryComboBox.SelectedIndex = -1;
             MaterialComboBox.SelectedIndex = -1;
             PurposeComboBox.SelectedIndex = -1;
@@ -38,5 +40,12 @@ public partial class MainWindow : Window
     {
         var restoretool = new RestoreTool().ExecuteRestoreTool();
         ToolTextBox1.Text = "";
+    }
+
+    private void Button_OnClick(object? sender, RoutedEventArgs e)
+    {
+        TechnologyWindow techWindow = new TechnologyWindow();
+       // techWindow.Width = 800;
+        techWindow.Show();
     }
 }

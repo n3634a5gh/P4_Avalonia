@@ -1,0 +1,71 @@
+﻿<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:viewModels="clr-namespace:ToolsMenagement.ViewModels"
+        mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+        x:Class="ToolsMenagement.Views.TechnologyWindow"
+        x:DataType="viewModels:TechnologyWindowViewModel"
+        Icon="/Assets/avalonia-logo.ico"
+        Title="TechnologyWindow">
+        
+        
+        <StackPanel>
+                <Grid RowDefinitions="*,*,*,*,*">
+                        <Grid Grid.Row="0" Background="GreenYellow" Height="40" ColumnDefinitions="*">
+                                <StackPanel Grid.Column="0" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
+                                        <Label FontWeight="Black">Technology</Label>
+                                </StackPanel>
+                        </Grid>
+                        <Rectangle Grid.Row="1" Height="40" Fill="Green"></Rectangle>
+                        <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Center">
+                                <Button Content="Add" Name="ButtonAdd" Click="Button_OnClick"  Background="Gray"></Button>
+                                <Button Content="Fill" Click="Button_OnClick2" Background="Gray"></Button>
+                        </StackPanel>
+                        <Rectangle Grid.Row="2" Name="TextStackRectangle" Height="30" Fill="Gray" Margin="0,-5,0,0" IsVisible="True"></Rectangle>
+                        <StackPanel Grid.Row="2" Name="TextStackPanel" Orientation="Horizontal" HorizontalAlignment="Left" Height="30" Margin="0,5,0,0" IsVisible="True">
+                                <TextBlock Text="Kategoria" MinWidth="275" TextAlignment="Center" FontWeight="Black" ></TextBlock>
+                                <Rectangle Fill="DimGray" Width="1" Margin="0,-10,0,0" Height="30"></Rectangle>
+                                <TextBlock Text="Przeznaczenie" MinWidth="175" TextAlignment="Center" FontWeight="Black"></TextBlock>
+                                <Rectangle Fill="DimGray" Width="1" Margin="0,-10,0,0" Height="30"></Rectangle>
+                                <TextBlock Text="Materiał" MinWidth="125" TextAlignment="Center" FontWeight="Black"></TextBlock>
+                                <Rectangle Fill="DimGray" Width="1" Margin="0,-10,0,0" Height="30"></Rectangle>
+                                <TextBlock Text="Średnica" MinWidth="125" TextAlignment="Center" FontWeight="Black"></TextBlock>
+                                <Rectangle Fill="DimGray" Width="1" Margin="0,-10,0,0" Height="30"></Rectangle>
+                        </StackPanel>
+                        <StackPanel Grid.Row="3" Orientation="Horizontal" Margin="0,-5,0,0">
+                                <ComboBox x:Name="CategoryComboBox" MinWidth="275" 
+                                          SelectedItem="{Binding SelectedCategory}" 
+                                          Items="{Binding Categories} ">
+                                </ComboBox>
+                                <ComboBox x:Name="PurposeComboBox" MinWidth="175" 
+                                          SelectedItem="{Binding SelectedPurpose}" 
+                                          Items="{Binding Purpose} " 
+                                          IsEnabled="{Binding IsEnable1}">
+                                </ComboBox>
+                                <ComboBox x:Name="MaterialComboBox" MinWidth="125" 
+                                          SelectedItem="{Binding SelectedMaterial}" 
+                                          Items="{Binding Material} " 
+                                          IsEnabled="{Binding IsEnable2}">
+                                </ComboBox>
+                                <TextBox x:Name="DiameterTextBox" Margin="0 0" 
+                                         Text="{Binding Diameter, 
+                                         Mode=TwoWay }" Width="125"
+                                         IsEnabled="{Binding IsEnable3}">
+                                </TextBox>
+                                <Button Content="Dodaj" HorizontalContentAlignment="Center"
+                                        Width="130" Height="32" VerticalAlignment="Top"
+                                        IsEnabled="{Binding IsEnable4}">
+                                </Button>
+                        </StackPanel>
+                        <ScrollViewer Grid.Row="4">
+                                <Grid>
+                                        <StackPanel Name="StackPanel" Margin="0,10,0,0">
+                                                
+                                        </StackPanel>
+                                        
+                                </Grid>
+                        </ScrollViewer>
+                </Grid>
+        </StackPanel>
+</Window>

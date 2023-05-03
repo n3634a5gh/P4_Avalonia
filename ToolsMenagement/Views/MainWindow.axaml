@@ -51,12 +51,12 @@
         </Grid>
         
             <TabControl>
-                <TabItem Header="Tools" VerticalContentAlignment="Center">
+                <TabItem Header="Magazyn" VerticalContentAlignment="Center">
                     <TreeDataGrid Source="{Binding Source}"/>
                 </TabItem>
                 <TabItem>
                     <TabItem.Header>
-                        <TextBlock VerticalAlignment="Center">Rejestracja</TextBlock>
+                        <TextBlock VerticalAlignment="Center">Narzędzie</TextBlock>
                     </TabItem.Header>
                     
                     <Grid RowDefinitions="Auto,*">
@@ -112,13 +112,19 @@
                 </TabItem>
                 <TabItem>
                     <TabItem.Header>
-                        <TextBlock VerticalAlignment="Center">Cos</TextBlock>
+                        <TextBlock VerticalAlignment="Center">Technologia</TextBlock>
                     </TabItem.Header>
-                    <StackPanel Orientation="Horizontal">
-                                      
-                    </StackPanel>
+                    <Grid RowDefinitions="Auto,*">
+                        <Rectangle Grid.Row="0" Fill="Bisque" Height="20" Margin="-10,-2,-10,0"></Rectangle>
+                        <StackPanel Grid.Row="1" Orientation="Vertical" HorizontalAlignment="Center">
+                            <Button Content="Submit" Margin="0 10 0 0" Click="Button_OnClick"/>
+                            <Button Content="Submit" Margin="0 10 0 0"/>
+                            <Button Content="Submit" Margin="0 10 0 0"/>
+                            <Button Content="Submit" Margin="0 10 0 0"/>
+                        </StackPanel>
+                    </Grid>
                 </TabItem>
-            </TabControl>
+            </TabControl> 
         
             <Grid>
             

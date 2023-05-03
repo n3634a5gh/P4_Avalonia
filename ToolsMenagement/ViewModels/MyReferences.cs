@@ -7,5 +7,6 @@ public class MyReferences
 {
     public static Window MainView;
     public static MainWindowViewModel mwvm;
-    public static MainWindow view;
+    public static TechnologyWindow techview;
+    public static TechnologyWindowViewModel twvm;
 }
