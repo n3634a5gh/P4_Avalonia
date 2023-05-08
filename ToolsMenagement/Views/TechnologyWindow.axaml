@@ -11,19 +11,25 @@
         
         
         <StackPanel>
-                <Grid RowDefinitions="*,*,*,*,*">
+                <Grid RowDefinitions="*,*,*,*,*,*">
                         <Grid Grid.Row="0" Background="GreenYellow" Height="40" ColumnDefinitions="*">
                                 <StackPanel Grid.Column="0" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
                                         <Label FontWeight="Black">Technology</Label>
                                 </StackPanel>
                         </Grid>
                         <Rectangle Grid.Row="1" Height="40" Fill="Green"></Rectangle>
-                        <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Center">
-                                <Button Content="Add" Name="ButtonAdd" Click="Button_OnClick"  Background="Gray"></Button>
-                                <Button Content="Fill" Click="Button_OnClick2" Background="Gray"></Button>
+                        <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
+                                <TextBox  MinWidth="525" Watermark="Nazwa technologii-max 64 znaki" 
+                                          Background="White" Text="{Binding TechnologyName}">
+                                </TextBox>
                         </StackPanel>
-                        <Rectangle Grid.Row="2" Name="TextStackRectangle" Height="30" Fill="Gray" Margin="0,-5,0,0" IsVisible="True"></Rectangle>
-                        <StackPanel Grid.Row="2" Name="TextStackPanel" Orientation="Horizontal" HorizontalAlignment="Left" Height="30" Margin="0,5,0,0" IsVisible="True">
+                        <Rectangle Grid.Row="2" Height="40" Fill="Green"></Rectangle>
+                        <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
+                                <Button Content="Dodaj nową technologię" Click="Button_OnClick2" 
+                                        Background="Gray" IsEnabled="{Binding EnableAddTech}"></Button>
+                        </StackPanel>
+                        <Rectangle Grid.Row="3" Name="TextStackRectangle" Height="30" Fill="Gray" Margin="0,-5,0,0" IsVisible="True"></Rectangle>
+                        <StackPanel Grid.Row="3" Name="TextStackPanel" Orientation="Horizontal" HorizontalAlignment="Left" Height="30" Margin="0,5,0,0" IsVisible="True">
                                 <TextBlock Text="Kategoria" MinWidth="275" TextAlignment="Center" FontWeight="Black" ></TextBlock>
                                 <Rectangle Fill="DimGray" Width="1" Margin="0,-10,0,0" Height="30"></Rectangle>
                                 <TextBlock Text="Przeznaczenie" MinWidth="175" TextAlignment="Center" FontWeight="Black"></TextBlock>
@@ -32,8 +38,11 @@
                                 <Rectangle Fill="DimGray" Width="1" Margin="0,-10,0,0" Height="30"></Rectangle>
                                 <TextBlock Text="Średnica" MinWidth="125" TextAlignment="Center" FontWeight="Black"></TextBlock>
                                 <Rectangle Fill="DimGray" Width="1" Margin="0,-10,0,0" Height="30"></Rectangle>
+                                <TextBlock Text="Czas pracy" MinWidth="125" TextAlignment="Center" FontWeight="Black"></TextBlock>
+                                <Rectangle Fill="DimGray" Width="1" Margin="0,-10,0,0" Height="30"></Rectangle>
+                                
                         </StackPanel>
-                        <StackPanel Grid.Row="3" Orientation="Horizontal" Margin="0,-5,0,0">
+                        <StackPanel Grid.Row="4" Orientation="Horizontal" Margin="0,-5,0,0">
                                 <ComboBox x:Name="CategoryComboBox" MinWidth="275" 
                                           SelectedItem="{Binding SelectedCategory}" 
                                           Items="{Binding Categories} ">
@@ -48,17 +57,23 @@
                                           Items="{Binding Material} " 
                                           IsEnabled="{Binding IsEnable2}">
                                 </ComboBox>
-                                <TextBox x:Name="DiameterTextBox" Margin="0 0" 
+                                <TextBox x:Name="DiameterTextBox" Margin="0 ,0,0,0" 
                                          Text="{Binding Diameter, 
                                          Mode=TwoWay }" Width="125"
                                          IsEnabled="{Binding IsEnable3}">
                                 </TextBox>
+                                <TextBox x:Name="TUseTextBox" Margin="0 0,0,0" 
+                                         Text="{Binding Durability, 
+                                         Mode=TwoWay }" Width="125" 
+                                         IsEnabled="{Binding IsEnable4}">
+                                </TextBox>
                                 <Button Content="Dodaj" HorizontalContentAlignment="Center"
                                         Width="130" Height="32" VerticalAlignment="Top"
-                                        IsEnabled="{Binding IsEnable4}">
+                                        IsEnabled="{Binding IsEnable5}"
+                                        Click="AddTTool">
                                 </Button>
                         </StackPanel>
-                        <ScrollViewer Grid.Row="4">
+                        <ScrollViewer Grid.Row="5">
                                 <Grid>
                                         <StackPanel Name="StackPanel" Margin="0,10,0,0">
                                                 

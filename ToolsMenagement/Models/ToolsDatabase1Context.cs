@@ -100,7 +100,8 @@ public partial class ToolsDatabase1Context : DbContext
             entity.HasKey(e => e.IdTechnologi).HasName("PK__Technolo__ECE48A4CFDB3801A");
 
             entity.Property(e => e.IdTechnologi).HasColumnName("Id_technologi");
-            entity.Property(e => e.Opis).HasMaxLength(32);
+            entity.Property(e => e.Opis).HasMaxLength(32).HasColumnName("Opis");
+            entity.Property(e => e.DataUtworzenia).HasColumnName("Data_utworzenia");
         });
 
         modelBuilder.Entity<Zlecenie>(entity =>
@@ -112,7 +113,7 @@ public partial class ToolsDatabase1Context : DbContext
             entity.Property(e => e.IdZlecenia).HasColumnName("Id_zlecenia");
             entity.Property(e => e.DataWykonania).HasColumnName("Data_wykonania");
             entity.Property(e => e.IdTechnologi).HasColumnName("Id_technologi");
-            entity.Property(e => e.Wykonal).HasMaxLength(1);
+            entity.Property(e => e.Wykonal).HasMaxLength(20);
 
             entity.HasOne(d => d.IdTechnologiNavigation).WithMany(p => p.Zlecenies)
                 .HasForeignKey(d => d.IdTechnologi)

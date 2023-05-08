@@ -1,8 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Avalonia;
 using MessageBox.Avalonia;
 using MessageBox.Avalonia.DTO;
 using MessageBox.Avalonia.Models;
@@ -11,42 +9,55 @@ using ToolsMenagement.Models;
 
 namespace ToolsMenagement.ViewModels;
 
-public class RestoreTool
+public class ToolExist
 {
-    public async Task ExecuteRestoreTool()
+    public async Task<bool> ExecuteToolExist()
     {
         var context = new ToolsDatabase1Context();
         context.Database.EnsureCreated();
         context.Database.Migrate();
 
         var message = "";
-        int toolPosition = 0;
-        bool canToolRestore = false;
+        
+        int categoryID = 0;
+        bool tool_found = false;
 
-        foreach (var item in context.Magazyns)
+        foreach (var item in context.Kategoria)
         {
-            if (item.PozycjaMagazynowa == Convert.ToInt32(MyReferences.mwvm.AfterRegeneration))
+            if (item.Opis == MyReferences.twvm.SelectedCategory)
             {
-                if (!item.Wycofany & item.CyklRegeneracji < 5)
+                if (item.Przeznaczenie == MyReferences.twvm.SelectedPurpose)
                 {
-                    toolPosition = item.PozycjaMagazynowa;
-                    canToolRestore = true;
+                    if (item.MaterialWykonania == MyReferences.twvm.SelectedMaterial)
+                    {
+                        categoryID = item.IdKategorii;
+                    }
                 }
-                else
+            }
+        }
+
+        foreach (var item in context.Narzedzies)
+        {
+            if (categoryID > 0)
+            {
+                if (item.IdKategorii == categoryID)
                 {
-                    message = "Narzędzie zostało wycofane z eksploatacji.\n" +
-                              "Nie jest możliwe jego przywrócenie.";
-                    break;
+                    if (item.Srednica == Convert.ToDouble(MyReferences.twvm.Diameter))
+                    {
+                        tool_found = true;
+                    }
                 }
             }
             else
             {
-                message = "Nie odnaleziono narzędzia w bazie.\n" +
-                          "Podaj inny numer narzędzia.";
+                break;
             }
         }
         
-        if (!canToolRestore)
+        message = "Nie odnaleziono narzędzia \n" +
+                  "o podanej średnicy.";
+
+        if (!tool_found)
         {
             var messageBox = MessageBoxManager
                 .GetMessageBoxCustomWindow(new MessageBoxCustomParams
@@ -60,17 +71,18 @@ public class RestoreTool
                         new ButtonDefinition { Name = "OK", IsCancel = true }
                     },
                 });
-            await messageBox.ShowDialog(MyReferences.MainView);
+            await messageBox.ShowDialog(MyReferences.techview);
         }
-
-        if (toolPosition != 0)
+        
+        
+        /*if (toolPosition != 0)
         {
             var pozycja_magazyn = context.Magazyns.First(a => a.PozycjaMagazynowa == toolPosition);
             pozycja_magazyn.CyklRegeneracji = pozycja_magazyn.CyklRegeneracji + 1;
             pozycja_magazyn.Trwalosc = (int) (pozycja_magazyn.Trwalosc * 0.9);
             pozycja_magazyn.Uzycie = 0;
             context.SaveChanges();
-        }
+        }*/
+        return tool_found;
     }
-    
 }

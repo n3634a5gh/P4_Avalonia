@@ -15,8 +15,9 @@ public class TechnologyWindowViewModel:ViewModelBase
     public ObservableCollection<string>Categories { get; set; }
     public ObservableCollection<string>Purpose { get; set; }
     public ObservableCollection<string>Material { get; set; }
+    public ObservableCollection<string> ToolOfTechnology { get; set; }
 
-    private bool _isenable1, _isenable2, _isenable3,_isenable4;
+    private bool _isenable1, _isenable2, _isenable3,_isenable4,_isenable5,_enableaddtech;
 
     public bool IsEnable1
     {
@@ -54,7 +55,98 @@ public class TechnologyWindowViewModel:ViewModelBase
         }
     }
     
-     private string _tDiameter;
+    public bool IsEnable5
+    {
+        get => _isenable5;
+        set
+        {
+            this.RaiseAndSetIfChanged(ref _isenable5, value);
+        }
+    }
+
+    public bool EnableAddTech
+    {
+        get => _enableaddtech;
+        set
+        {
+            this.RaiseAndSetIfChanged(ref _enableaddtech, value);
+        }
+    }
+    
+    private string _tDurability;
+
+    public string Durability
+    {
+        get => _tDurability;
+        set
+        {
+            int number;
+            if(string.IsNullOrWhiteSpace(value))
+            {
+                IsEnable5 = false;
+                throw new DataValidationException("Pole nie może być puste");
+            }
+            else
+            {
+                if (value.Contains('.'))
+                {
+                    IsEnable5 = false;
+                    throw new DataValidationException("Wartość musi dodatnia typu int");
+                }
+                else
+                {
+                    if (!int.TryParse(value, out number) || value.Contains('-') || value.Equals("0"))
+                    {
+                        IsEnable5 = false;
+                        throw new DataValidationException("Wartość musi dodatnia typu int");
+                    }
+                    else
+                    {
+                        if (IsEnable4 & IsEnable3)
+                        {
+                            IsEnable5 = true;
+                        }
+                        else
+                        {
+                            IsEnable5 = false;
+                        }
+                        this.RaiseAndSetIfChanged(ref _tDurability, value);
+                    }
+                }
+            }
+        }
+    }
+
+    private string _technologyName;
+
+    public string TechnologyName
+    {
+        get => _technologyName;
+        set
+        {
+            int number;
+            if (string.IsNullOrWhiteSpace(value))
+            {
+                EnableAddTech = false;
+                throw new DataValidationException("Pole nie może być puste");
+            }
+            else
+            {
+                if (value.Length > 64)
+                {
+                    EnableAddTech = false;
+                    throw new DataValidationException("Przekroczono dozwoloną długość nazwy");
+                }
+                else
+                {
+                    EnableAddTech = true;
+                    this.RaiseAndSetIfChanged(ref _technologyName, value);
+                }
+            }
+        }
+    }
+
+    private string _tDiameter;
     
         public string Diameter
         {
@@ -65,6 +157,7 @@ public class TechnologyWindowViewModel:ViewModelBase
                 if(string.IsNullOrWhiteSpace(value))
                 {
                     IsEnable4 = false;
+                    IsEnable5 = false;
                     throw new DataValidationException("Pole nie może być puste");
                 }
                 else
@@ -72,6 +165,7 @@ public class TechnologyWindowViewModel:ViewModelBase
                     if (value.Contains('.'))
                     {
                         IsEnable4 = false;
+                        IsEnable5 = false;
                         throw new DataValidationException("Nieprawidłowy format liczby");
                     }
                     else
@@ -79,11 +173,22 @@ public class TechnologyWindowViewModel:ViewModelBase
                         if (!double.TryParse(value, out number) || value.Contains('-') || value.Equals("0"))
                         {
                             IsEnable4 = false;
+                            IsEnable5 = false;
                             throw new DataValidationException("Wartość musi być dodatnia typu double");
                         }
                         else
                         {
-                            IsEnable4 = true;
+                            if (IsEnable3 & IsEnable4)
+                            {
+                                IsEnable4 = true;
+                                IsEnable5 = true;
+                            }
+                            else
+                            {
+                                IsEnable4 = true;
+                                IsEnable5 = false;
+                            }
+                            
                             this.RaiseAndSetIfChanged(ref _tDiameter, value);
                         }
                     }

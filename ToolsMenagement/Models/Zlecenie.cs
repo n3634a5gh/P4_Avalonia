@@ -11,7 +11,7 @@ public partial class Zlecenie
 
     public int Sztuk { get; set; }
 
-    public DateOnly DataWykonania { get; set; }
+    public DateTime DataWykonania { get; set; }
 
     public string Wykonal { get; set; } = null!;
 
