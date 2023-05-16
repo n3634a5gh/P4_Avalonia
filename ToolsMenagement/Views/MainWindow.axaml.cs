@@ -48,4 +48,11 @@ public partial class MainWindow : Window
        // techWindow.Width = 800;
         techWindow.Show();
     }
+
+    private void OpenNewOrderWindow(object? sender, RoutedEventArgs e)
+    {
+        NewOrderWindow orderWindow = new NewOrderWindow();
+        orderWindow.Width = 400;
+        orderWindow.Show();
+    }
 }

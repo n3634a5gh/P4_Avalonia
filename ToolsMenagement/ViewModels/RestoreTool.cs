@@ -48,19 +48,7 @@ public class RestoreTool
         
         if (!canToolRestore)
         {
-            var messageBox = MessageBoxManager
-                .GetMessageBoxCustomWindow(new MessageBoxCustomParams
-                {
-                    ContentHeader = "Błąd",
-                    ContentMessage = message,
-                    MinWidth = 400,
-                    CanResize = true,
-                    ButtonDefinitions = new[]
-                    {
-                        new ButtonDefinition { Name = "OK", IsCancel = true }
-                    },
-                });
-            await messageBox.ShowDialog(MyReferences.MainView);
+            var newmessage = new Messages().UniversalMessage(message, MyReferences.MainView,"Błąd",false);
         }
 
         if (toolPosition != 0)
@@ -70,6 +58,9 @@ public class RestoreTool
             pozycja_magazyn.Trwalosc = (int) (pozycja_magazyn.Trwalosc * 0.9);
             pozycja_magazyn.Uzycie = 0;
             context.SaveChanges();
+            
+            message = "Stan narzędzia został zaktualizowany";
+            var newmessage = new Messages().UniversalMessage(message, MyReferences.MainView,"",false);
         }
     }
     

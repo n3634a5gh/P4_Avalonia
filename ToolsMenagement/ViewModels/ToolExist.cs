@@ -74,15 +74,6 @@ public class ToolExist
             await messageBox.ShowDialog(MyReferences.techview);
         }
         
-        
-        /*if (toolPosition != 0)
-        {
-            var pozycja_magazyn = context.Magazyns.First(a => a.PozycjaMagazynowa == toolPosition);
-            pozycja_magazyn.CyklRegeneracji = pozycja_magazyn.CyklRegeneracji + 1;
-            pozycja_magazyn.Trwalosc = (int) (pozycja_magazyn.Trwalosc * 0.9);
-            pozycja_magazyn.Uzycie = 0;
-            context.SaveChanges();
-        }*/
         return tool_found;
     }
 }

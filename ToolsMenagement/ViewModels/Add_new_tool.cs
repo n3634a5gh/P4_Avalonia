@@ -32,6 +32,7 @@ public class AddNewTool
         double zxc = Convert.ToDouble(temp);
         
         int existing_tool = 0;
+        
         foreach (var item in context.Narzedzies)
         {
             if (item.IdKategorii == select_category)
@@ -67,6 +68,21 @@ public class AddNewTool
         
             context.Add(narzedzie);
             context.SaveChanges();
+
+            int newtoolid = 0;
+            foreach (var item2 in context.Narzedzies)
+            {
+                if (item2.IdKategorii == select_category)
+                {
+                    if (item2.Srednica == zxc)
+                    {
+                        newtoolid = item2.IdNarzedzia;
+                    }
+                }
+            }
+            
+            string message=$"Dodano nowe narzędzie nr. {newtoolid}";
+            var newmessage = new Messages().UniversalMessage(message, MyReferences.MainView,"",false);
         }
         else
         {
@@ -80,6 +96,9 @@ public class AddNewTool
             };
             context.Add(magazyn);
             context.SaveChanges();
+            
+            string message=$"Dodano nową pozycję magazynową narzędzia {existing_tool}";
+            var newmessage = new Messages().UniversalMessage(message, MyReferences.MainView,"",false);
         }
     }
 }

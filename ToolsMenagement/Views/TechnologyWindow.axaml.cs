@@ -26,63 +26,6 @@ public partial class TechnologyWindow : MainWindow
 
     private void AddToolPosition()
     {
-        /*
-        
-        var binding = new Binding(nameof(ComboBox.SelectedItem))
-        {
-            Source = null,
-            Mode = BindingMode.OneWay
-        };
-
-        for (int i = 0; i <= 0; i++)
-        {
-
-            //MyReferences.techview.TextStackPanel.IsVisible = true;
-            
-            
-            binding.Source = MyReferences.twvm;
-            binding.Path = nameof(MyReferences.twvm.SelectedCategory);
-            
-            comboBox1.SelectionChanged += (s, args) =>
-            {
-                //newTextBox.Text = comboBox1.SelectedItem?.ToString() ?? "";
-                MyReferences.twvm.SelectedCategory = comboBox1.SelectedItem?.ToString() ?? "";
-                //newTextBox.Text = MyReferences.twvm.SelectedCategory;
-                comboBox2.IsEnabled = true;
-            };
-            
-            binding.Source = MyReferences.twvm;
-            binding.Path = nameof(MyReferences.twvm.SelectedPurpose);
-            
-            comboBox2.SelectionChanged += (s, args) =>
-            {
-                MyReferences.twvm.SelectedPurpose = comboBox2.SelectedItem?.ToString() ?? "";
-                //newTextBox.Text = MyReferences.twvm.SelectedPurpose;
-                comboBox3.IsEnabled = true;
-            };
-
-            binding.Source = MyReferences.twvm;
-            binding.Path = nameof(MyReferences.twvm.SelectedMaterial);
-
-            comboBox3.SelectionChanged += (s, args) =>
-            {
-                MyReferences.twvm.SelectedMaterial = comboBox3.SelectedItem?.ToString() ?? "";
-                //newTextBox.Text = MyReferences.twvm.SelectedMaterial;
-                textbox1.IsEnabled = true;
-            };
-            
-            binding.Source = MyReferences.twvm;
-             binding.Path = nameof(MyReferences.twvm.Diameter);
-             binding.Mode = BindingMode.TwoWay;
-             textbox1.Bind(TextBox.TextProperty, binding);
-
-             newStackPanel.Children.Add(comboBox1);
-            newStackPanel.Children.Add(comboBox2);
-            newStackPanel.Children.Add(comboBox3);
-            newStackPanel.Children.Add(textbox1);
-        }*/
-        //add new stackpanel in existing stackpanel
-        
         StackPanel newStackPanel = new StackPanel();
         Rectangle newRectangle = new Rectangle();
         newStackPanel.Orientation = Orientation.Horizontal;
@@ -136,10 +79,22 @@ public partial class TechnologyWindow : MainWindow
         newStackPanel.Children.Add(categorytextblock);
         newStackPanel.Children.Add(purposetextblock);
         newStackPanel.Children.Add(materialtextblock);
-        newStackPanel.Children.Add(borderrect);
+        //newStackPanel.Children.Add(borderrect);
         newStackPanel.Children.Add(diametertextblock);
-       // newStackPanel.Children.Add(borderrect);
+        //newStackPanel.Children.Add(borderrect);
         newStackPanel.Children.Add(tusetextblock);
+        
+        var sstackPanel = this.FindControl<StackPanel>("StackPanel");
+        int count = stackPanel.Children.Count;
+                
+        if (count > 0)
+        {
+            MyReferences.twvm.EnableAddTech2 = true;
+        }
+        else
+        {
+            MyReferences.twvm.EnableAddTech2 = false;
+        }
         
 
     }
@@ -173,7 +128,7 @@ public partial class TechnologyWindow : MainWindow
                             k++;
                         }
                         
-                        textBlock.Text = (j).ToString();
+                        //textBlock.Text = (j).ToString();
 
                     }
                 }
@@ -181,9 +136,15 @@ public partial class TechnologyWindow : MainWindow
                 stackp_counter++;
             }
         }
-
-        var addtechnology = new AddNewTechnology(MyReferences.twvm.TechnologyName, tab1);
+        async void addech()
+        {
+            var addtechnology = new AddNewTechnology();
+            var ifadd = await addtechnology.AddNewTech(MyReferences.twvm.TechnologyName, tab1);
+            this.IsEnabled = false;
+        }
         
+        addech();
+
     }
 
     private void AddTTool(object? sender, RoutedEventArgs e)

@@ -15,9 +15,8 @@ public class TechnologyWindowViewModel:ViewModelBase
     public ObservableCollection<string>Categories { get; set; }
     public ObservableCollection<string>Purpose { get; set; }
     public ObservableCollection<string>Material { get; set; }
-    public ObservableCollection<string> ToolOfTechnology { get; set; }
 
-    private bool _isenable1, _isenable2, _isenable3,_isenable4,_isenable5,_enableaddtech;
+    private bool _isenable1, _isenable2, _isenable3,_isenable4,_isenable5,_enableaddtech,_enableaddtech2;
 
     public bool IsEnable1
     {
@@ -70,6 +69,15 @@ public class TechnologyWindowViewModel:ViewModelBase
         set
         {
             this.RaiseAndSetIfChanged(ref _enableaddtech, value);
+        }
+    }
+    
+    public bool EnableAddTech2
+    {
+        get => _enableaddtech2;
+        set
+        {
+            this.RaiseAndSetIfChanged(ref _enableaddtech2, value);
         }
     }
     

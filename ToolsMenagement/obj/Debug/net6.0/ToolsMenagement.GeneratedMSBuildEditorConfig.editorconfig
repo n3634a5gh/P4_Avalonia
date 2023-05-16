@@ -20,5 +20,8 @@ build_metadata.AdditionalFiles.SourceItemGroup = AvaloniaXaml
 [C:/Users/48519/RiderProjects/ToolsMenagement/ToolsMenagement/Views/MainWindow.axaml]
 build_metadata.AdditionalFiles.SourceItemGroup = AvaloniaXaml
 
+[C:/Users/48519/RiderProjects/ToolsMenagement/ToolsMenagement/Views/NewOrderWindow.axaml]
+build_metadata.AdditionalFiles.SourceItemGroup = AvaloniaXaml
+
 [C:/Users/48519/RiderProjects/ToolsMenagement/ToolsMenagement/Views/TechnologyWindow.axaml]
 build_metadata.AdditionalFiles.SourceItemGroup = AvaloniaXaml
