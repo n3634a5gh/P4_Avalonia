@@ -61,7 +61,8 @@ public class AddNewTool
                         Trwalosc = Convert.ToInt32(MyReferences.mwvm.Lifetime),
                         Uzycie = 0,
                         CyklRegeneracji = 0,
-                        Wycofany = false
+                        Wycofany = false,
+                        Regeneracja = false
                     }
                 }
             };
@@ -92,13 +93,16 @@ public class AddNewTool
                 Trwalosc = Convert.ToInt32(MyReferences.mwvm.Lifetime),
                 Uzycie = 0,
                 CyklRegeneracji = 0,
-                Wycofany = false
+                Wycofany = false,
+                Regeneracja = false
             };
             context.Add(magazyn);
             context.SaveChanges();
             
             string message=$"Dodano nową pozycję magazynową narzędzia {existing_tool}";
-            var newmessage = new Messages().UniversalMessage(message, MyReferences.MainView,"",false);
+            var newmessage = new Messages().
+                UniversalMessage(message, MyReferences.MainView,"",false);
+            
         }
     }
 }

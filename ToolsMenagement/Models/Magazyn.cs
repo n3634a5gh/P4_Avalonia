@@ -16,6 +16,8 @@ public partial class Magazyn
     public int CyklRegeneracji { get; set; }
 
     public bool Wycofany { get; set; }
+    
+    public bool Regeneracja { get; set; }
 
     public virtual Narzedzie IdNarzedziaNavigation { get; set; } = null!;
 }

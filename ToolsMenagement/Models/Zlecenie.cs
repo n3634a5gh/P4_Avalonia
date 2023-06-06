@@ -9,11 +9,9 @@ public partial class Zlecenie
 
     public int IdTechnologi { get; set; }
 
-    public int Sztuk { get; set; }
-
-    public DateTime DataWykonania { get; set; }
-
-    public string Wykonal { get; set; } = null!;
+    public bool Aktywne { get; set; }
 
     public virtual Technologium IdTechnologiNavigation { get; set; } = null!;
+
+    public virtual ICollection<Rejestracja> Rejestracjas { get; set; } = new List<Rejestracja>();
 }

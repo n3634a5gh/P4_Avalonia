@@ -10,4 +10,5 @@ public class MyReferences
     public static TechnologyWindow techview;
     public static TechnologyWindowViewModel twvm;
     public static NewOrderWindow orderview;
+    public static NewOrderWindowViewModel nowvm;
 }

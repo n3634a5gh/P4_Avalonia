@@ -27,16 +27,25 @@ public class RestoreTool
         {
             if (item.PozycjaMagazynowa == Convert.ToInt32(MyReferences.mwvm.AfterRegeneration))
             {
-                if (!item.Wycofany & item.CyklRegeneracji < 5)
+                if (!item.Wycofany & item.Regeneracja & item.CyklRegeneracji < 5)
                 {
                     toolPosition = item.PozycjaMagazynowa;
                     canToolRestore = true;
                 }
                 else
                 {
-                    message = "Narzędzie zostało wycofane z eksploatacji.\n" +
-                              "Nie jest możliwe jego przywrócenie.";
-                    break;
+                    if (!item.Regeneracja)
+                    {
+                        message = "Narzędzie nie zostało poddane regeneracji.\n" +
+                                  "Nie jest możliwe jego przywrócenie.";
+                        break;
+                    }
+                    else
+                    {
+                        message = "Narzędzie zostało wycofane z eksploatacji.\n" +
+                                  "Nie jest możliwe jego przywrócenie.";
+                        break;
+                    }
                 }
             }
             else
@@ -57,6 +66,7 @@ public class RestoreTool
             pozycja_magazyn.CyklRegeneracji = pozycja_magazyn.CyklRegeneracji + 1;
             pozycja_magazyn.Trwalosc = (int) (pozycja_magazyn.Trwalosc * 0.9);
             pozycja_magazyn.Uzycie = 0;
+            pozycja_magazyn.Regeneracja = false;
             context.SaveChanges();
             
             message = "Stan narzędzia został zaktualizowany";

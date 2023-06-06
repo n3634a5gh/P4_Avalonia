@@ -24,7 +24,6 @@ public class Messages
                 ButtonDefinitions = new[]
                 {
                     new ButtonDefinition { Name = "OK", IsDefault  = true }
-                    //new ButtonDefinition { Name = "Cancel", IsCancel = true }
                 },
             });
         
