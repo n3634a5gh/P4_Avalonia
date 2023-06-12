@@ -45,7 +45,6 @@ public partial class MainWindow : Window
     private void Button_OnClick(object? sender, RoutedEventArgs e)
     {
         TechnologyWindow techWindow = new TechnologyWindow();
-       // techWindow.Width = 800;
         techWindow.Show();
     }
 
@@ -54,5 +53,13 @@ public partial class MainWindow : Window
         NewOrderWindow orderWindow = new NewOrderWindow();
         orderWindow.Width = 400;
         orderWindow.Show();
+    }
+
+    private void WorkRegistration(object? sender, RoutedEventArgs e)
+    {
+        WorkRegister workRegister = new WorkRegister();
+        workRegister.Width = 800;
+        workRegister.MinHeight = 600;
+        workRegister.Show();
     }
 }

@@ -25,3 +25,6 @@ build_metadata.AdditionalFiles.SourceItemGroup = AvaloniaXaml
 
 [C:/Users/48519/RiderProjects/ToolsMenagement/ToolsMenagement/Views/TechnologyWindow.axaml]
 build_metadata.AdditionalFiles.SourceItemGroup = AvaloniaXaml
+
+[C:/Users/48519/RiderProjects/ToolsMenagement/ToolsMenagement/Views/WorkRegister.axaml]
+build_metadata.AdditionalFiles.SourceItemGroup = AvaloniaXaml

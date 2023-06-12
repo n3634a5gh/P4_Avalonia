@@ -11,4 +11,6 @@ public class MyReferences
     public static TechnologyWindowViewModel twvm;
     public static NewOrderWindow orderview;
     public static NewOrderWindowViewModel nowvm;
+    public static WorkRegister registerview;
+    public static WorkRegisterViewModel wrvm;
 }

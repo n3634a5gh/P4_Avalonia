@@ -27,14 +27,14 @@ public class RestoreTool
         {
             if (item.PozycjaMagazynowa == Convert.ToInt32(MyReferences.mwvm.AfterRegeneration))
             {
-                if (!item.Wycofany & item.Regeneracja & item.CyklRegeneracji < 5)
+                if (!item.Wycofany & item.Regeneracja)
                 {
                     toolPosition = item.PozycjaMagazynowa;
                     canToolRestore = true;
                 }
                 else
                 {
-                    if (!item.Regeneracja)
+                    if (!item.Regeneracja & !item.Wycofany)
                     {
                         message = "Narzędzie nie zostało poddane regeneracji.\n" +
                                   "Nie jest możliwe jego przywrócenie.";
@@ -62,15 +62,21 @@ public class RestoreTool
 
         if (toolPosition != 0)
         {
-            var pozycja_magazyn = context.Magazyns.First(a => a.PozycjaMagazynowa == toolPosition);
-            pozycja_magazyn.CyklRegeneracji = pozycja_magazyn.CyklRegeneracji + 1;
-            pozycja_magazyn.Trwalosc = (int) (pozycja_magazyn.Trwalosc * 0.9);
-            pozycja_magazyn.Uzycie = 0;
-            pozycja_magazyn.Regeneracja = false;
+            foreach (var item in context.Magazyns)
+            {
+               if (item.PozycjaMagazynowa == toolPosition)
+               {
+                   item.Regeneracja = false;
+                   item.CyklRegeneracji ++;
+                   item.Trwalosc=(int) (item.Trwalosc * 0.9);
+                   item.Uzycie = 0;
+               } 
+            }
+            
             context.SaveChanges();
             
             message = "Stan narzędzia został zaktualizowany";
-            var newmessage = new Messages().UniversalMessage(message, MyReferences.MainView,"",false);
+            var newmessage2 = new Messages().UniversalMessage(message, MyReferences.MainView,"",false);
         }
     }
     
