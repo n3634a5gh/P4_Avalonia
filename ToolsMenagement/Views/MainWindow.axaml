@@ -120,7 +120,6 @@
                             <Button Content="Dodaj technologię" Margin="0 10 0 0" Click="Button_OnClick"/>
                             <Button Content="Utwórz zlecenie" Margin="0 10 0 0" Click="OpenNewOrderWindow"/>
                             <Button Content="Rejestruj pracę" Margin="0 10 0 0" Click="WorkRegistration"/>
-                            <Button Content="Submit" Margin="0 10 0 0"/>
                         </StackPanel>
                     </Grid>
                 </TabItem>

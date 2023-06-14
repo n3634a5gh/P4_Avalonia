@@ -34,19 +34,22 @@ public class RestoreTool
                 }
                 else
                 {
-                    if (!item.Regeneracja & !item.Wycofany)
-                    {
-                        message = "Narzędzie nie zostało poddane regeneracji.\n" +
-                                  "Nie jest możliwe jego przywrócenie.";
-                        break;
-                    }
-                    else
+                    if (item.Wycofany)
                     {
                         message = "Narzędzie zostało wycofane z eksploatacji.\n" +
                                   "Nie jest możliwe jego przywrócenie.";
-                        break;
+                    }
+                    else
+                    {
+                        if (!item.Regeneracja & !item.Wycofany)
+                        {
+                            message = "Narzędzie nie zostało poddane regeneracji.\n" +
+                                      "Nie jest możliwe jego przywrócenie.";
+                            break;
+                        }
                     }
                 }
+                break;
             }
             else
             {
@@ -54,11 +57,12 @@ public class RestoreTool
                           "Podaj inny numer narzędzia.";
             }
         }
-        
+
         if (!canToolRestore)
         {
             var newmessage = new Messages().UniversalMessage(message, MyReferences.MainView,"Błąd",false);
         }
+        
 
         if (toolPosition != 0)
         {

@@ -109,18 +109,74 @@ public partial class WorkRegister : MainWindow
         var orderID = this.FindControl<TextBox>("OrderTextBox");
         var quantity = this.FindControl<TextBox>("QuantityTextBox");
         var employee = this.FindControl<TextBox>("EmployeeTextBox");
+        bool orderclose = false,notvalid=false;
+        
+        var damagetoolsstackPanel = this.FindControl<StackPanel>("DToolsStackPanel");
+        string[][] damageTools;
+
+
         if (newSaveOperation.check_order(Convert.ToInt32(orderID.Text)))
         {
+            
+            //zapis to dabeli rejestracja
             newSaveOperation.UpdateRegisterTable(Convert.ToInt32(orderID.Text),
                 Convert.ToInt32(quantity.Text),employee.Text);
+            
+            //zapis to dabeli magazyn
+            orderclose=newSaveOperation.UpdateWarehouse(Convert.ToInt32(orderID.Text)
+                ,Convert.ToInt32(quantity.Text));
+            
+            //obsługa zapisu uszkodzonych narzędzi
+            if (damagetoolsstackPanel.Children.Count > 0)
+            {
+                orderclose = true;
+                damageTools = new string[2][];
+                for (int t = 0; t < damageTools.Length; t++)
+                {
+                    damageTools[t] = new string[damagetoolsstackPanel.Children.Count / 2];
+                }
+
+                int item_counter = 0;
+
+                for (int i = 0; i < damagetoolsstackPanel.Children.Count;i++)
+                {
+                    if (damagetoolsstackPanel.Children[i] is StackPanel)
+                    {
+                        StackPanel childStackPanel = damagetoolsstackPanel.Children[i] as StackPanel;
+                        int zxc = childStackPanel.Children.Count;
+                        
+                        TextBlock nameTextBlock = childStackPanel.Children[0] as TextBlock;
+                        TextBlock damageTextBlock = childStackPanel.Children[2] as TextBlock;
+
+                        damageTools[0][item_counter] = nameTextBlock.Text;
+                        damageTools[1][item_counter] = damageTextBlock.Text;
+
+                        item_counter++;
+                    }
+                }
+                
+                newSaveOperation.UpdateDamagedAndToRestoreTools(Convert.ToInt32(orderID.Text),damageTools);
+            }
+            
         }
-        
-        newSaveOperation.UpdateWarehouse(Convert.ToInt32(orderID.Text));
-        var stackPanel = this.FindControl<StackPanel>("DToolsStackPanel");
-        int[] damageToolsIndexes;
-        if (stackPanel.Children.Count > 0)
+        else
         {
-            damageToolsIndexes = new int[stackPanel.Children.Count/2];
+            notvalid = true;
+        }
+
+        var message = "";
+
+        if (!notvalid)
+        {
+            if (orderclose)
+            {
+                message = "Zmiany zostały zapisane\n Zlecenie zostało zakończone.";
+            }
+            else
+            {
+                message = "Zmiany zostały zapisane";
+            }
+            var newmessage2 = new Messages().UniversalMessage(message, MyReferences.registerview,"",true);
         }
     }
 }
