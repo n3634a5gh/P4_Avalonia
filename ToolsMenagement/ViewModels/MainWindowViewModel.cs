@@ -1,9 +1,11 @@
-﻿using System.Collections.ObjectModel;
+﻿using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using ToolsMenagement.Models;
 using Avalonia.Controls;
 using Avalonia.Controls.Models.TreeDataGrid;
 using Microsoft.EntityFrameworkCore;
 using System.Linq;
+using Avalonia.Controls.Primitives;
 using Avalonia.Data;
 using ReactiveUI;
 
@@ -184,25 +186,64 @@ public class MainWindowViewModel : ViewModelBase
 
         context.SaveChanges();
 
+       /* var narzedziaEXV = context.Kategoria
+            .Select(kategorium => new ToolExv()
+            {
+                CKategorium = kategorium,
+                Children = context.Narzedzies
+                    .Where(narzedzie => narzedzie.IdKategorii==kategorium.IdKategorii)
+                    .Select(narzedzie =>new ToolTx
+                    {
+                        CNarzedzie = narzedzie,
+                        Children = context.Magazyns
+                            .Where(magazyn => magazyn.IdNarzedzia==narzedzie.IdNarzedzia)
+                            .ToList()
+                    })
+                    .ToList()
+            })
+            .ToArray();*/
+        
         var nrz = context.Narzedzies
             //.Where(narzedzie => narzedzie.IdKategorii == 1)
-            .ToArray();
+            /*.GroupJoin(
+                context.Magazyns,
+                narzedzie =>narzedzie.IdNarzedzia,
+                magazyn =>magazyn.IdNarzedzia,
+                (narzedzie, magazyn) =>magazyn 
+                )*/
+            .ToList();
 
-        var narzedziaCollection = new ObservableCollection<Narzedzie>(nrz);
+        List<Magazyn> narze = new List<Magazyn>();
+        
+        var Tools = context.Narzedzies
+            .Join(
+                context.Magazyns,
+                narzedzie =>narzedzie.IdNarzedzia,
+                magazyn =>magazyn.IdNarzedzia,
+                (narzedzie, magazyn) =>magazyn 
+            )
+            .ToArray();
+        foreach (var item in Tools)
+        {
+            narze.Add(item);
+        }
+
+        var narzedziaCollection = new ObservableCollection<Magazyn>(narze);
 
         var kategorie = context.Kategoria
             .ToArray();
-
-        Source = new FlatTreeDataGridSource<Narzedzie>(narzedziaCollection)
+        
+        Source = new FlatTreeDataGridSource<Magazyn>(narzedziaCollection)
         {
             Columns =
             {
-                new TextColumn<Narzedzie, string>("Nazwa", x=> x.Nazwa),
-                new TextColumn<Narzedzie, int>("Id Narzędzia", x => x.IdNarzedzia),
-                new TextColumn<Narzedzie, int>("Id kategori", x => x.IdKategorii),
-                new TextColumn<Narzedzie, double>("Średnica", x => x.Srednica),
+                new TextColumn<Magazyn, int>("PozycjaMagazynowa", x=> x.PozycjaMagazynowa),
+                new TextColumn<Magazyn, int>("Id Narzędzia", x => x.IdNarzedzia),
+                new TextColumn<Magazyn, int>("CyklRegeneracji", x => x.CyklRegeneracji),
+                new TextColumn<Magazyn, double>("Trwalosc", x => x.Trwalosc),
             },
         };
+        
         
         Categories = new ObservableCollection<string>(
             kategorie.Select(n => n.Opis.ToString()).Distinct());
@@ -215,5 +256,5 @@ public class MainWindowViewModel : ViewModelBase
     }
     
     
-    public FlatTreeDataGridSource<Narzedzie> Source { get; }
+    public FlatTreeDataGridSource<Magazyn> Source { get; }
 }

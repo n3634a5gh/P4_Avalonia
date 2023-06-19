@@ -51,9 +51,39 @@
         </Grid>
         
             <TabControl>
-                <TabItem Header="Magazyn" VerticalContentAlignment="Center">
-                    <TreeDataGrid Source="{Binding Source}"/>
+                <TabItem Header="Przegląd" VerticalContentAlignment="Center">
+                    <Grid RowDefinitions="*,*">
+                        <Rectangle Grid.Row="0" Height="4" Fill="LimeGreen"
+                                   Margin="-12,-2,-12,0"></Rectangle>
+                        <Grid Grid.Row="1" ColumnDefinitions="Auto,*,Auto">
+                            <Rectangle Grid.Column="0" Width="12" Fill="DarkGreen"
+                                       Margin="-12,0,0,0"></Rectangle>
+                            <TabControl Grid.Column="1">
+                                <TabItem >
+                                    <TabItem.Header>
+                                        <TextBlock VerticalAlignment="Center">Narzędzia</TextBlock>
+                                    </TabItem.Header>
+                            
+                                    <TreeDataGrid Source="{Binding Source}"/>
+                            
+                                </TabItem>
+                                <TabItem>
+                                    <TabItem.Header>
+                                        <TextBlock VerticalAlignment="Center">Zlecenia</TextBlock>
+                                    </TabItem.Header>
+                                </TabItem>
+                                <TabItem>
+                                    <TabItem.Header>
+                                        <TextBlock VerticalAlignment="Center">Technologie</TextBlock>
+                                    </TabItem.Header>
+                                </TabItem>
+                            </TabControl>
+                            <Rectangle Grid.Column="2" Width="12" Fill="DarkGreen"
+                                       Margin="0,0,-12,0"></Rectangle>
+                        </Grid>
+                    </Grid>
                 </TabItem>
+                
                 <TabItem>
                     <TabItem.Header>
                         <TextBlock VerticalAlignment="Center">Narzędzie</TextBlock>
