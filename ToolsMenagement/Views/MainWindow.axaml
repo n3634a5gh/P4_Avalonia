@@ -61,7 +61,7 @@
                             <TabControl Grid.Column="1">
                                 <TabItem >
                                     <TabItem.Header>
-                                        <TextBlock VerticalAlignment="Center">Narzędzia</TextBlock>
+                                        <TextBlock VerticalAlignment="Center">Zlecenia</TextBlock>
                                     </TabItem.Header>
                             
                                     <TreeDataGrid Source="{Binding Source}"/>
@@ -69,13 +69,19 @@
                                 </TabItem>
                                 <TabItem>
                                     <TabItem.Header>
-                                        <TextBlock VerticalAlignment="Center">Zlecenia</TextBlock>
+                                        <TextBlock VerticalAlignment="Center">Narzędzia</TextBlock>
                                     </TabItem.Header>
+                                    
+                                    <TreeDataGrid Source="{Binding Source2}"/>
+                                    
                                 </TabItem>
                                 <TabItem>
                                     <TabItem.Header>
                                         <TextBlock VerticalAlignment="Center">Technologie</TextBlock>
                                     </TabItem.Header>
+                                    
+                                    <TreeDataGrid Source="{Binding Source3}"/>
+                                    
                                 </TabItem>
                             </TabControl>
                             <Rectangle Grid.Column="2" Width="12" Fill="DarkGreen"

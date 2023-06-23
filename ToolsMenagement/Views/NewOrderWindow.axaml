@@ -9,7 +9,6 @@
         Icon="/Assets/avalonia-logo.ico"
         Title="NewOrderWindow">
         
-        
         <StackPanel>
                 <Grid RowDefinitions="*,*,*,*">
                         <Grid Grid.Row="0" Background="GreenYellow" Height="40" ColumnDefinitions="*">

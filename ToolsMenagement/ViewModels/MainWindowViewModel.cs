@@ -16,8 +16,12 @@ public class MainWindowViewModel : ViewModelBase
     public ObservableCollection<string>Categories { get; set; }
     public ObservableCollection<string>Purpose { get; set; }
     public ObservableCollection<string>Material { get; set; }
-    
-    
+
+
+    private ObservableCollection<ToolsDBView> _toolsDbViews = new ObservableCollection<ToolsDBView>();
+    private ObservableCollection<Zlecenie> _zlecenies;
+    private ObservableCollection<TechnologyView> _technologyViews= new ObservableCollection<TechnologyView>();
+
     private bool _isDataValid,_isDiameterValid,_isLifetimeValid;
 
     public bool IsDataValid
@@ -185,65 +189,106 @@ public class MainWindowViewModel : ViewModelBase
         context.Database.Migrate();
 
         context.SaveChanges();
-
-       /* var narzedziaEXV = context.Kategoria
-            .Select(kategorium => new ToolExv()
-            {
-                CKategorium = kategorium,
-                Children = context.Narzedzies
-                    .Where(narzedzie => narzedzie.IdKategorii==kategorium.IdKategorii)
-                    .Select(narzedzie =>new ToolTx
-                    {
-                        CNarzedzie = narzedzie,
-                        Children = context.Magazyns
-                            .Where(magazyn => magazyn.IdNarzedzia==narzedzie.IdNarzedzia)
-                            .ToList()
-                    })
-                    .ToList()
-            })
-            .ToArray();*/
         
-        var nrz = context.Narzedzies
-            //.Where(narzedzie => narzedzie.IdKategorii == 1)
-            /*.GroupJoin(
-                context.Magazyns,
-                narzedzie =>narzedzie.IdNarzedzia,
-                magazyn =>magazyn.IdNarzedzia,
-                (narzedzie, magazyn) =>magazyn 
-                )*/
-            .ToList();
-
-        List<Magazyn> narze = new List<Magazyn>();
-        
-        var Tools = context.Narzedzies
+        var toolsView = context.Kategoria
+            .Join(
+                context.Narzedzies,
+                kategorium => kategorium.IdKategorii,
+                narzedzie => narzedzie.IdKategorii,
+                (kategorium, narzedzie) => new { Kategoria = kategorium, Narzedzie = narzedzie }
+            )
             .Join(
                 context.Magazyns,
-                narzedzie =>narzedzie.IdNarzedzia,
-                magazyn =>magazyn.IdNarzedzia,
-                (narzedzie, magazyn) =>magazyn 
+                joinResult => joinResult.Narzedzie.IdNarzedzia,
+                magazyn => magazyn.IdNarzedzia,
+                (joinResult, magazyn) => new { joinResult.Kategoria, joinResult.Narzedzie, Magazyn = magazyn }
             )
             .ToArray();
-        foreach (var item in Tools)
+        
+        var orders = context.Zlecenies
+            .ToArray();
+
+        var technologyView = context.Technologia
+            .Join(
+                context.NarzedziaTechnologia,
+                technologium => technologium.IdTechnologi,
+                technologium => technologium.IdTechnologi,
+                (technologium, narzedziaTechnologium) => new { Technologium=technologium,NarzedziaTechnologium=narzedziaTechnologium}
+                )
+            .OrderBy(technologium=>technologium.Technologium.IdTechnologi)
+            .ToArray();
+
+        foreach (var item in toolsView)
         {
-            narze.Add(item);
+            _toolsDbViews.Add(new ToolsDBView()
+            {
+                Nazwa = item.Narzedzie.Nazwa,
+                Srednica = item.Narzedzie.Srednica,
+                Trwalosc = item.Magazyn.Trwalosc,
+                Uzycie = item.Magazyn.Uzycie,
+                CyklRegeneracji = item.Magazyn.CyklRegeneracji,
+                Wycofany = item.Magazyn.Wycofany,
+                Regeneracja = item.Magazyn.Regeneracja
+            });
         }
 
-        var narzedziaCollection = new ObservableCollection<Magazyn>(narze);
+        foreach (var item in technologyView)
+        {
+            _technologyViews.Add(new TechnologyView()
+            {
+                Opis = item.Technologium.Opis,
+                Children =
+                {
+                    new TechnologyView()
+                    {
+                        IdNarzedzia = item.NarzedziaTechnologium.IdNarzedzia,
+                        Uzycie = item.NarzedziaTechnologium.CzasPracy
+                    }
+                }
+            });
+        }
 
+        var toolsCollection = new ObservableCollection<ToolsDBView>(_toolsDbViews);
+        var ordersCollection = new ObservableCollection<Zlecenie>(orders);
+        var technologiesCollection = new ObservableCollection<TechnologyView>(_technologyViews);
         var kategorie = context.Kategoria
             .ToArray();
         
-        Source = new FlatTreeDataGridSource<Magazyn>(narzedziaCollection)
+        Source = new FlatTreeDataGridSource<Zlecenie>(orders)
         {
             Columns =
             {
-                new TextColumn<Magazyn, int>("PozycjaMagazynowa", x=> x.PozycjaMagazynowa),
-                new TextColumn<Magazyn, int>("Id Narzędzia", x => x.IdNarzedzia),
-                new TextColumn<Magazyn, int>("CyklRegeneracji", x => x.CyklRegeneracji),
-                new TextColumn<Magazyn, double>("Trwalosc", x => x.Trwalosc),
+                new TextColumn<Zlecenie, int>("IdZlecenia", x=> x.IdZlecenia),
+                new TextColumn<Zlecenie, int>("IdTechnologi", x => x.IdTechnologi),
+                new TextColumn<Zlecenie, bool>("Aktywne", x => x.Aktywne),
             },
         };
         
+        Source2 = new FlatTreeDataGridSource<ToolsDBView>(toolsCollection)
+        {
+            Columns =
+            {
+                new TextColumn<ToolsDBView, string>("Nazwa", x=> x.Nazwa),
+                new TextColumn<ToolsDBView, double>("Średnica", x => x.Srednica),
+                new TextColumn<ToolsDBView, int>("Trwałość", x => x.Trwalosc),
+                new TextColumn<ToolsDBView, int>("Użycie", x => x.Uzycie),
+                new TextColumn<ToolsDBView, int>("CyklRegeneracji", x => x.CyklRegeneracji),
+                new TextColumn<ToolsDBView, bool>("Wycofany", x => x.Wycofany),
+                new TextColumn<ToolsDBView, bool>("W regeneracji", x => x.Regeneracja),
+            },
+        };
+
+        Source3 = new HierarchicalTreeDataGridSource<TechnologyView>(technologiesCollection)
+        {
+            Columns =
+            {
+                new HierarchicalExpanderColumn<TechnologyView>(
+                    new TextColumn<TechnologyView,string>("Opis",x=>x.Opis),
+                    x=>x.Children),
+                new TextColumn<TechnologyView,int>("Narzędzie",x=>x.IdNarzedzia),
+                new TextColumn<TechnologyView,int>("Użycie",x=>x.Uzycie)
+            }
+        };
         
         Categories = new ObservableCollection<string>(
             kategorie.Select(n => n.Opis.ToString()).Distinct());
@@ -256,5 +301,8 @@ public class MainWindowViewModel : ViewModelBase
     }
     
     
-    public FlatTreeDataGridSource<Magazyn> Source { get; }
+    public FlatTreeDataGridSource<Zlecenie> Source { get; }
+    public FlatTreeDataGridSource<ToolsDBView> Source2 { get; }
+    
+    public HierarchicalTreeDataGridSource<TechnologyView> Source3 { get; }
 }
