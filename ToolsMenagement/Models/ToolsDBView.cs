@@ -3,6 +3,10 @@
 public class ToolsDBView
 {
     public string Nazwa { get; set; } = null!;
+    
+    public string IDNarzedzia{ get; set; }
+    
+    public string PozycjaMagazynowa{ get; set; }
 
     public double Srednica { get; set; }
     

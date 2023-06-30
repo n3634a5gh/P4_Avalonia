@@ -6,6 +6,7 @@ using Avalonia.Controls;
 using Avalonia.Interactivity;
 using Avalonia.Layout;
 using Avalonia.Markup.Xaml;
+using ReactiveUI;
 using ToolsMenagement.ViewModels;
 
 namespace ToolsMenagement.Views;
@@ -18,6 +19,11 @@ public partial class MainWindow : Window
         DataContext = new MainWindowViewModel();
         MyReferences.MainView = this;
         
+        FToolName.Text = "";
+        FPositionId.Text = "";
+        FToolId.Text = "";
+        FDiameter.Text = "";
+
     }
 
     private void OnSubmitClicked(object sender, RoutedEventArgs e)
@@ -61,5 +67,30 @@ public partial class MainWindow : Window
         workRegister.Width = 800;
         workRegister.MinHeight = 600;
         workRegister.Show();
+    }
+
+    private void FResults(object? sender, RoutedEventArgs e)
+    {
+        string[] filterTable = new string[4];
+
+        filterTable[0] = FToolName.Text;
+        filterTable[1] = FPositionId.Text;
+        filterTable[2] = FToolId.Text;
+        filterTable[3] = FDiameter.Text;
+
+        MainWindowViewModel mainWindowViewModel = new MainWindowViewModel();
+        mainWindowViewModel.change_view_tools_results(filterTable);
+        
+        TreeDataGrid newTreeDataGrid = new TreeDataGrid();
+
+        newTreeDataGrid.Margin = new Thickness(0, 20, 0, 0);
+        newTreeDataGrid.Source = MyReferences.mwvm.Source2;
+
+        var tdg= this.FindControl<Grid>("ToolViewGrid");
+        if (tdg.Children.Count > 0)
+        {
+            tdg.Children.Clear();
+        }
+        tdg.Children.Add(newTreeDataGrid);
     }
 }
