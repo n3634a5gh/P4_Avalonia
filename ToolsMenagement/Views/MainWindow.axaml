@@ -59,7 +59,7 @@
                             <Rectangle Grid.Column="0" Width="12" Fill="DarkGreen"
                                        Margin="-12,0,0,0"></Rectangle>
                             <TabControl Grid.Column="1">
-                                <TabItem >
+                                <TabItem PointerPressed="regenerate_object" >
                                     <TabItem.Header>
                                         <TextBlock VerticalAlignment="Center">Zlecenia</TextBlock>
                                     </TabItem.Header>
@@ -101,7 +101,7 @@
                                     </Grid>
                                     
                                 </TabItem>
-                                <TabItem>
+                                <TabItem PointerPressed="regenerate_object">
                                     <TabItem.Header>
                                         <TextBlock VerticalAlignment="Center">Technologie</TextBlock>
                                     </TabItem.Header>

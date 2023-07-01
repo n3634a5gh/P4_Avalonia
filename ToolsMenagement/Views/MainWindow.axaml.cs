@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using Avalonia;
 using Avalonia.Controls;
+using Avalonia.Input;
 using Avalonia.Interactivity;
 using Avalonia.Layout;
 using Avalonia.Markup.Xaml;
@@ -18,7 +19,7 @@ public partial class MainWindow : Window
         InitializeComponent();
         DataContext = new MainWindowViewModel();
         MyReferences.MainView = this;
-        
+
         FToolName.Text = "";
         FPositionId.Text = "";
         FToolId.Text = "";
@@ -30,7 +31,7 @@ public partial class MainWindow : Window
     {
         if (!MyReferences.mwvm.IsDataValid)
         {
-            
+
         }
         else
         {
@@ -38,10 +39,11 @@ public partial class MainWindow : Window
             CategoryComboBox.SelectedIndex = -1;
             MaterialComboBox.SelectedIndex = -1;
             PurposeComboBox.SelectedIndex = -1;
-            DiameterTextBox.Text= "";
+            DiameterTextBox.Text = "";
             LifetimeTextBox.Text = "";
         }
     }
+
     private void OnSubmit2Clicked(object sender, RoutedEventArgs e)
     {
         var restoretool = new RestoreTool().ExecuteRestoreTool();
@@ -80,17 +82,27 @@ public partial class MainWindow : Window
 
         MainWindowViewModel mainWindowViewModel = new MainWindowViewModel();
         mainWindowViewModel.change_view_tools_results(filterTable);
-        
+
         TreeDataGrid newTreeDataGrid = new TreeDataGrid();
 
         newTreeDataGrid.Margin = new Thickness(0, 20, 0, 0);
         newTreeDataGrid.Source = MyReferences.mwvm.Source2;
 
-        var tdg= this.FindControl<Grid>("ToolViewGrid");
+        var tdg = this.FindControl<Grid>("ToolViewGrid");
         if (tdg.Children.Count > 0)
         {
             tdg.Children.Clear();
         }
+
         tdg.Children.Add(newTreeDataGrid);
+    }
+
+    private void regenerate_object(object? sender, PointerPressedEventArgs e)
+    {
+        //string message = "zxc";
+        // var newmessage2 = new Messages().UniversalMessage(message, MyReferences.MainView,"",false);
+
+        MainWindowViewModel mainWindowViewModel = new MainWindowViewModel();
+        mainWindowViewModel.refresh_source();
     }
 }

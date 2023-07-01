@@ -240,6 +240,88 @@ public class MainWindowViewModel : ViewModelBase
         };
     }
 
+    public void refresh_source()
+    {
+        var context = new ToolsDatabase1Context();
+        context.Database.EnsureCreated();
+        context.Database.Migrate();
+
+        context.SaveChanges();
+
+        var orders = context.Zlecenies
+            .ToArray();
+
+        var alltechnologies = context.Technologia;
+
+        var technologyView = context.Technologia
+            .Join(
+                context.NarzedziaTechnologia,
+                technologium => technologium.IdTechnologi,
+                technologium => technologium.IdTechnologi,
+                (technologium, narzedziaTechnologium) => new { Technologium=technologium,NarzedziaTechnologium=narzedziaTechnologium}
+            )
+            .Join(
+                context.Narzedzies,
+                joinResult => joinResult.NarzedziaTechnologium.IdNarzedzia,
+                narzedzie => narzedzie.IdNarzedzia,
+                (joinResult,narzedzie)=>new {joinResult.Technologium,joinResult.NarzedziaTechnologium,Narzedzie=narzedzie}
+            )
+            .OrderBy(technologium=>technologium.Technologium.IdTechnologi)
+            .ToArray();
+        
+        foreach (var item in alltechnologies)
+        {
+            var parentTechnology = new TechnologyView()
+            {
+                Opis = item.Opis,
+                IdNarzedzia = "",
+                Uzycie = ""
+            };
+
+            foreach (var item1 in technologyView)
+            {
+                if (item1.NarzedziaTechnologium.IdTechnologi==item.IdTechnologi)
+                {
+                    parentTechnology.Children.Add(new TechnologyView()
+                    {
+                        IdNarzedzia = item1.NarzedziaTechnologium.IdNarzedzia.ToString(),
+                        Uzycie = item1.NarzedziaTechnologium.CzasPracy.ToString(),
+                        IDTechnologii = item.IdTechnologi.ToString()
+                    });
+                }
+            }
+
+            _technologyViews.Add(parentTechnology);
+        }
+        var technologiesCollection = new ObservableCollection<TechnologyView>(_technologyViews);
+        
+        var kategorie = context.Kategoria
+            .ToArray();
+        
+        Source = new FlatTreeDataGridSource<Zlecenie>(orders)
+        {
+            Columns =
+            {
+                new TextColumn<Zlecenie, int>("IdZlecenia", x=> x.IdZlecenia),
+                new TextColumn<Zlecenie, int>("IdTechnologi", x => x.IdTechnologi),
+                new TextColumn<Zlecenie, bool>("Aktywne", x => x.Aktywne),
+            },
+        };
+        
+        Source3 = new HierarchicalTreeDataGridSource<TechnologyView>(technologiesCollection)
+        {
+            Columns =
+            {
+                new HierarchicalExpanderColumn<TechnologyView>(
+                    new TextColumn<TechnologyView,string>("Opis",x=>x.Opis),
+                    x=>x.Children),
+                new TextColumn<TechnologyView,string>("ID Technologii",x=>x.IDTechnologii.ToString()),
+                new TextColumn<TechnologyView,string>("Narzędzie",x=>x.IdNarzedzia.ToString()),
+                new TextColumn<TechnologyView,string>("Użycie",x=>x.Uzycie.ToString())
+            }
+        };
+    }
+
     public MainWindowViewModel()
     {
         
@@ -319,7 +401,7 @@ public class MainWindowViewModel : ViewModelBase
 
 
         var toolsCollection = new ObservableCollection<ToolsDBView>(_toolsDbViews);
-        var ordersCollection = new ObservableCollection<Zlecenie>(orders);
+        //var ordersCollection = new ObservableCollection<Zlecenie>(orders);
         var technologiesCollection = new ObservableCollection<TechnologyView>(_technologyViews);
         
         var kategorie = context.Kategoria
@@ -375,8 +457,8 @@ public class MainWindowViewModel : ViewModelBase
     }
     
     
-    public FlatTreeDataGridSource<Zlecenie> Source { get; }
+    public FlatTreeDataGridSource<Zlecenie> Source { get; set; }
     public  FlatTreeDataGridSource<ToolsDBView> Source2 { get; set; }
 
-    public HierarchicalTreeDataGridSource<TechnologyView> Source3 { get; }
+    public HierarchicalTreeDataGridSource<TechnologyView> Source3 { get; set; }
 }
